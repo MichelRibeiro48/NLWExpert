@@ -12,13 +12,21 @@ import Button from '../components/Button'
 import { CATEGORIES, MENU, PRODUCTS } from '../utils/data/products'
 import { Card } from '../components/Card'
 import { Link } from 'expo-router'
+import { useCartStore } from '../stores/cart-store'
 
 export default function Home() {
+  const cartStore = useCartStore()
   const [products, setProducts] = useState(0)
   const [selected, setSelected] = useState(0)
   const [category, setCategory] = useState(CATEGORIES[0])
 
   const sectionListRef = useRef<SectionList>(null)
+
+  const cartQuantityItems = cartStore.products.reduce(
+    (total, product) => total + product.quantity,
+    0
+  )
+
   const onHandleCategorySelect = (selectedCategory: string) => {
     setCategory(selectedCategory)
 
@@ -42,11 +50,13 @@ export default function Home() {
           <Image source={require('../assets/logo.png')} className="w-32 h-6" />
           <Text className="text-white text-xl">Faça seu pedido</Text>
         </View>
-        <FeatherIcon name="shopping-bag" size={24} color={'white'} />
-        {products > 0 && (
-          <View className="absolute self-end right-4 top-8 bg-lime-300 w-[14px] h-[14px] items-center justify-center rounded-full">
-            <Text className="text-[11px]">1</Text>
-          </View>
+        {cartQuantityItems > 0 && (
+          <>
+            <FeatherIcon name="shopping-bag" size={24} color={'white'} />
+            <View className="absolute self-end right-0 top-2 bg-lime-300 w-[14px] h-[14px] items-center justify-center rounded-full">
+              <Text className="text-[11px]">{cartQuantityItems}</Text>
+            </View>
+          </>
         )}
       </View>
       <View className="w-full bg-slate-700 h-[1px] my-5" />
@@ -86,11 +96,6 @@ export default function Home() {
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{ paddingBottom: 100 }}
       />
-      {/* <Card
-        image={require('../assets/products/thumbnail/1.png')}
-        productName={PRODUCTS[0].title}
-        productDescription={PRODUCTS[0].description}
-      /> */}
     </View>
   )
 }
