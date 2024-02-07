@@ -5,6 +5,7 @@ import {
   ScrollView,
   FlatList,
   SectionList,
+  TouchableOpacity,
 } from 'react-native'
 import FeatherIcon from '@expo/vector-icons/Feather'
 import { useRef, useState } from 'react'
@@ -51,12 +52,14 @@ export default function Home() {
           <Text className="text-white text-xl">Faça seu pedido</Text>
         </View>
         {cartQuantityItems > 0 && (
-          <>
-            <FeatherIcon name="shopping-bag" size={24} color={'white'} />
-            <View className="absolute self-end right-0 top-2 bg-lime-300 w-[14px] h-[14px] items-center justify-center rounded-full">
-              <Text className="text-[11px]">{cartQuantityItems}</Text>
-            </View>
-          </>
+          <Link href={'/cart'} asChild>
+            <TouchableOpacity>
+              <FeatherIcon name="shopping-bag" size={24} color={'white'} />
+              <View className="absolute self-end top-[-4px] bg-lime-300 w-[14px] h-[14px] items-center justify-center rounded-full">
+                <Text className="text-[11px]">{cartQuantityItems}</Text>
+              </View>
+            </TouchableOpacity>
+          </Link>
         )}
       </View>
       <View className="w-full bg-slate-700 h-[1px] my-5" />

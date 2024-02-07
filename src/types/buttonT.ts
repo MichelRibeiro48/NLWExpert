@@ -5,4 +5,5 @@ export interface ButtonT {
   primary?: boolean
   icon?: "pluscircleo"
   secondary?: boolean
+  href?: any
 }
